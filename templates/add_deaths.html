@@ -1,0 +1,113 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    
+{% endblock %}
+
+{% block main %}
+  <p>{{ now.strftime("%A, %d %B %Y %H:%M") }}</p> 
+
+  <h5>Summary of deaths, {{ new_date }}</h5>
+  
+  <table class="table table-sm table-striped">
+    <thead>
+        <tr>
+            <th scope="col">Id</th>
+            <th scope="col">District</th>
+            <th scope="col">Sex</th>
+            <th scope="col">Age</th>
+            <th scope="col">Comorbidities</th>
+            <th scope="col">Date of Death</th>
+            <th scope="col">Classification</th>
+        </tr>
+    </thead>
+    
+    <tbody>
+        {% if new_deaths %}
+
+        {% for row in new_deaths %}
+        <tr>
+            <td class="text-left">{{ row.id }}</td>
+            <td class="text-left">{{ row.district }}</td>
+            <td class="text-left">{{ row.sex }}</td>
+            <td class="text-left">{{ row.age }}</td>
+            <td class="text-left">{{ row.comorbidities }}</td>
+            <td class="text-left">{{ row.death_date }}</td>
+            <td class="text-left">{{ row.classification }}</td>
+        </tr>
+        {% endfor %}
+        <tr>
+            <td class="text-left" colspan="1"><strong>Total</strong></td>
+            <td class="text-left"> <strong>{{ new_deaths|length }}</strong>
+            
+        </tr>
+
+
+        {% endif %}
+
+    </tbody>
+  </table>
+
+  <form action="/add_deaths" method="post">
+        
+        <h5> Add new deaths:</h5>
+        <div class="row">
+            <div class="col col-xs-6 col-md-4 col-xl mb-2">
+              <select class="form-control" name="district">
+                <option disabled selected value="">Choose District</option>
+                {% for d in district_list %}
+                    <option value="{{ d }}">{{ d }}</option>
+                {% endfor %}
+              </select>
+              <div class="form-text">District</div>
+            </div>
+            <div class="col col-6 col-md-4 col-xl mb-2">
+              <select class="form-select" name="sex">
+                <option selected>Male</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Unknown">Unknown</option>
+              </select>
+              <div class="form-text">Sex</div>
+            </div>
+            <div class="form-group col col-6 col-md-4 col-xl mb-2">
+                <input autocomplete="off" autofocus class="form-control" name="age" placeholder="0" type="number">
+                <div class="form-text">Age</div>
+            </div>
+            <div class="col col-6 col-md-4 col-xl mb-2">
+              <select class="form-select" name="comorbidities">
+                <option selected>Yes</option>
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+                <option value="Unknown">Unknown</option>
+              </select>
+              <div class="form-text">Comorbidities</div>
+            </div>
+            <div class="form-group col col-6 col-md-4 col-xl mb-2">
+                <input autocomplete="off" autofocus class="form-control" name="death_date" placeholder="{{ new_date.strftime('%Y-%m-%d') }}" value="{{ new_date.strftime('%Y-%m-%d') }}" type="text">
+                <div class="form-text">Date</div>
+            </div>
+            <div class="col col-6 col-md-4 col-xl mb-2">
+              <select class="form-select" name="classification">
+                <option selected>COVID-19 Death</option>
+                <option value="COVID-19 Death">COVID-19 Death</option>
+                <option value="COVID-19 Related Death">COVID-19 Related Death</option>
+                <option value="Unknown">Unknown</option>
+              </select>
+              <div class="form-text">Classification</div>
+            </div>
+            <div class="col col-6 col-md-4 col-xl text-center">
+                <input class="btn btn-success px-5" type="submit"name="add" value="Add" role="button"></input>
+                <input class="btn btn-outline-success px-4 my-2" type="submit" name="delete_death" value="Delete Death" role="button"></input>
+            </div>
+        </div>
+
+  </form>
+  <div class="text-center mt-4">
+
+    
+    <a class="btn btn btn-danger px-5" href="./" role="button">Back</a>
+
+  </div>
+
+{% endblock %}

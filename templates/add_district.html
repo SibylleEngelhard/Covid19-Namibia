@@ -1,0 +1,71 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    
+{% endblock %}
+
+{% block main %}
+    
+  <table class="table table-sm table-striped">
+    <thead>
+        <tr>
+            <th scope="col">District</th>
+            <th scope="col">Region</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% if districts %}
+
+       
+        {% for row in districts %}
+        <tr>
+            <td class="text-left">{{ row.district }}</td>
+            <td class="text-left">{{ row.region }}</td>
+        </tr>
+        {% endfor %}
+        
+        {% endif %}
+
+    </tbody>
+  </table>
+
+
+    <form action="/add_district" method="post">
+        
+    	<h5 class="mb-3"> Add District and Region:</h5>
+    	<div class="row">
+
+        <div class="form-group col mb-2">
+            <input autocomplete="off" autofocus class="form-control" name="district" placeholder="District" type="text">
+        </div>
+        
+		<select class="form-select col mb-2" aria-label="Default select example" name="region">
+		  <option selected>Erongo</option>
+		  <option value="Erongo">Erongo</option>
+          <option value="Hardap">Hardap</option>
+		  <option value="Karas">Karas</option>
+		  <option value="Kavango East">Kavango East</option>
+		  <option value="Kavango West">Kavango West</option>
+		  <option value="Khomas">Khomas</option>
+		  <option value="Kunene">Kunene</option>
+		  <option value="Ohangwena">Ohangwena</option>
+		  <option value="Omaheke">Omaheke</option>
+		  <option value="Omusati">Omusati</option>
+		  <option value="Oshana">Oshana</option>
+		  <option value="Oshikoto">Oshikoto</option>
+		  <option value="Otjozondjupa">Otjozondjupa</option>
+		  <option value="Zambezi">Zambezi</option>
+		</select>
+		
+        <div class="text-center col">
+        	<button class="btn btn-success px-5" type="submit">Add</button>
+        </div>
+    </div>
+    </form>
+
+    <div class="text-center mt-4">
+      <a class="btn btn btn-danger px-5" href="./" role="button">Back</a>
+  </div>
+
+
+{% endblock %}

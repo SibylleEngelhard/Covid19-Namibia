@@ -1,0 +1,45 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    
+{% endblock %}
+
+{% block main %}
+  <p>{{ now.strftime("%A, %d %B %Y %H:%M") }}</p> 
+
+  <h5>All cases</h5>
+  
+  <table class="table table-sm table-striped">
+    <thead>
+        <tr>
+            <th scope="col">Date</th>
+            <th scope="col">Region</th>
+            <th scope="col">District</th>
+            <th scope="col">New Cases</th>
+        </tr>
+    </thead>
+    
+    <tbody>
+        {% if all_cases %}
+
+        {% for row in all_cases %}
+        <tr>
+            <td class="text-left">{{ row.cases_date }}</td>
+            <td class="text-left">{{ row.region }}</td>
+            <td class="text-left">{{ row.district }}</td>
+            <td class="text-left">{{ row.new_cases }}</td>
+        </tr>
+        {% endfor %}
+        <tr>
+            <td class="text-left" colspan="2"><strong>Total</strong></td>
+            <td class="text-left"> <strong>{{ all_cases|sum("new_cases") }}</strong>
+        </tr>
+
+        {% endif %}
+
+    </tbody>
+  </table>
+
+  
+
+{% endblock %}

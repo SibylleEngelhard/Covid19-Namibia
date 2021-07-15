@@ -1,0 +1,61 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    
+{% endblock %}
+
+{% block main %}
+  <p>{{ now.strftime("%A, %d %B %Y %H:%M") }}</p> 
+  
+
+  <h5>New recoveries for {{ new_date }} and region {{ check.region }} are already in the database:</h5>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                        	
+                            
+                            <th scope="col">Region</th>
+                            <th scope="col">New Recoveries</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if check %}
+
+                        <!-- TODO: Loop through the database entries to display them in this table -->
+                        
+                        <tr>
+                            
+                            
+                            <td class="text-left">{{ check.region }}</td>
+                            <td class="text-left">{{ check.new_recoveries }}</td>
+                        </tr>
+                        
+                        
+                        
+                        {% endif %}
+
+                    </tbody>
+                </table>
+
+<form action="/update_recoveries" method="post">
+        
+        <h5 class="mb-3"> Do you want to update?</h5>
+        <div class="row">
+      
+           <div class="form-group col mb-2">
+                <input autocomplete="on" autofocus class="form-control" name="region" placeholder="{{ check.region }}" value="{{ check.region }}" type="text">
+            </div>
+            <div class="form-group col mb-2">
+                <input autocomplete="on" autofocus class="form-control" name="new_recoveries" placeholder="{{ check.new_recoveries }}" value="{{ check.new_recoveries }}" type="number">
+            </div>
+            
+            <div class="col text-center">
+                <button class="btn btn-success px-5" type="submit">Update</button>
+            </div>
+        </div>
+    </form>
+    <div class="text-center mt-4">
+      <a class="btn btn btn-danger px-5" href="./" role="button">Back</a>
+  </div>
+
+{% endblock %}

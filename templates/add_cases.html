@@ -1,0 +1,67 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    
+{% endblock %}
+
+{% block main %}
+  <p>{{ now.strftime("%A, %d %B %Y %H:%M") }}</p> 
+
+  <h5>New COVID-19 positive cases, {{ new_date }}</h5>
+  
+  <table class="table table-sm table-striped">
+    <thead>
+        <tr>
+           
+            <th scope="col">Region</th>
+            <th scope="col">District</th>
+            <th scope="col">New Cases</th>
+        </tr>
+    </thead>
+    
+    <tbody>
+        {% if new_cases %}
+
+        {% for row in new_cases %}
+        <tr>
+            
+            <td class="text-left">{{ row.region }}</td>
+            <td class="text-left">{{ row.district }}</td>
+            <td class="text-left">{{ row.new_cases }}</td>
+        </tr>
+        {% endfor %}
+        <tr>
+            <td class="text-left" colspan="2"><strong>Total</strong></td>
+            <td class="text-left"> <strong>{{ new_cases|sum("new_cases") }}</strong>
+        </tr>
+
+        {% endif %}
+
+    </tbody>
+  </table>
+
+  <form action="/add_cases" method="post">
+        
+        <h5> Add new cases:</h5>
+        <div class="row">
+            <select class="form-control col mb-2" name="district">
+                <option disabled selected value="">Choose District</option>
+                {% for d in district_list %}
+                    <option value="{{ d }}">{{ d }}</option>
+                {% endfor %}
+            </select>
+
+            <div class="form-group col mb-2">
+                <input autocomplete="off" autofocus class="form-control" name="new_cases" placeholder="0" value="0" type="number">
+            </div>
+         
+            <div class="col text-center">
+                <button class="btn btn-success px-5" type="submit">Add</button>
+            </div>
+        </div>
+  </form>
+  <div class="text-center mt-4">
+      <a class="btn btn btn-danger px-5" href="./" role="button">Back</a>
+  </div>
+
+{% endblock %}

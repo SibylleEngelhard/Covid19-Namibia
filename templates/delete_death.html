@@ -1,0 +1,82 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    
+{% endblock %}
+
+{% block main %}
+  
+<h5>Summary of deaths, {{ new_date }}</h5>
+  
+  <table class="table table-sm table-striped">
+    <thead>
+        <tr>
+            <th scope="col">Id</th>
+            <th scope="col">District</th>
+            <th scope="col">Sex</th>
+            <th scope="col">Age</th>
+            <th scope="col">Comorbidities</th>
+            <th scope="col">Date of Death</th>
+            <th scope="col">Classification</th>
+        </tr>
+    </thead>
+    
+    <tbody>
+        {% if new_deaths %}
+
+        {% for row in new_deaths %}
+        <tr>
+            <td class="text-left">{{ row.id }}</td>
+            <td class="text-left">{{ row.district }}</td>
+            <td class="text-left">{{ row.sex }}</td>
+            <td class="text-left">{{ row.age }}</td>
+            <td class="text-left">{{ row.comorbidities }}</td>
+            <td class="text-left">{{ row.death_date }}</td>
+            <td class="text-left">{{ row.classification }}</td>
+        </tr>
+        {% endfor %}
+        
+
+        {% endif %}
+
+    </tbody>
+  </table>
+
+
+  <form action="/delete_death" method="post">
+        
+        <h5> Delete death by id:</h5>
+        <div class="row">
+            <!--<div class="col mb-2">
+              <select class="form-control" name="district">
+                <option disabled selected value="">Choose District</option>
+                {% for d in district_list %}
+                    <option value="{{ d }}">{{ d }}</option>
+                {% endfor %}
+              </select>
+              <div class="form-text">District</div>
+            </div>
+            <div class="col text-center">
+                <button class="btn btn-success px-5" type="submit">Delete</button>
+            </div>-->
+            <div class="col mb-2">
+              <select class="form-control" name="id">
+                <option disabled selected value="">Choose Id</option>
+                {% for row in new_deaths %}
+                    <option value="{{ row.id }}">{{ row.id }}</option>
+                {% endfor %}
+              </select>
+            </div>
+            <div class="col text-center">
+                <button class="btn btn-success px-5" type="submit">Delete</button>
+            </div>
+        </div>
+  </form>
+  
+  <div class="text-center mt-4">
+      <a class="btn btn btn-danger px-5" href="./" role="button">Back</a>
+  </div>
+
+   
+
+{% endblock %}

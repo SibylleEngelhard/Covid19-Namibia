@@ -1,0 +1,48 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    
+{% endblock %}
+
+{% block main %}
+<div class="text-center mb-4">
+  <p>{{ now.strftime("%A, %d %B %Y %H:%M") }}</p>
+</div>
+<div class="row">
+    <!--<div class="text-center col">
+      <h4>Add district</h4>
+      <a class="btn btn btn-success px-5" href="./add_district" role="button">Go</a>
+    </div>-->
+    
+    <div class="col">
+      <form action="/" method="post">
+        
+       	<div class="text-center">
+          <h4>Add daily updates</h4>
+          <div class="form-group mb-3">
+            <input autocomplete="off" autofocus class="form-control" name="act_date" placeholder="{{ act_date }}" value="{{ act_date }}" type="text">
+          <!--<input autocomplete="off" autofocus class="form-control" name="act_date" placeholder="{{ now.date().strftime('%Y-%m-%d') }}" value="{{ now.date().strftime('%Y-%m-%d') }}" type="text">-->
+            <div class="form-text">Day to update</div>
+          </div>
+        </div>
+        <div class="text-center">
+          <input class="btn btn-outline-success px-4 mb-2" type="submit" name="cases" value="New cases" role="button"></input>
+          <input class="btn btn-outline-success px-3 mb-2" type="submit" name="recoveries" value="New recoveries" role="button"></input>	
+          <input class="btn btn-outline-success px-3 mb-2" type="submit" name="hospital" value="Hospitalization" role="button"></input>  
+          <input class="btn btn-outline-success px-4 mb-2" type="submit" name="deaths" value="Deaths" role="button"></input>
+          <input class="btn btn-outline-success px-4 mb-2" type="submit" name="missing" value="Missing" role="button"></input>
+          
+        </div>
+      </form>
+    </div>
+    <div class="text-center col">
+      <h4>Show summary</h4>
+      <a class="btn btn btn-success mb-3 px-5" href="./summary" role="button">Go</a>
+      <a class="btn btn btn-secondary mb-3 px-5" href="./temp_cases" role="button">cases</a>
+      <a class="btn btn btn-secondary mb-3 px-5" href="./temp_recoveries" role="button">recoveries</a>
+      <a class="btn btn btn-secondary mb-3 px-5" href="./temp_deaths" role="button">deaths</a>
+    </div>
+  </div>
+
+ 
+{% endblock %}

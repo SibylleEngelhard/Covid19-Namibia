@@ -1,0 +1,73 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    
+{% endblock %}
+
+{% block main %}
+  <p>{{ now.strftime("%A, %d %B %Y %H:%M") }}</p> 
+  
+
+  <h5>Hospital cases for {{ new_date }} and region {{ check.region }} are already in the database:</h5>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                        	
+                            
+                            <th scope="col">Region</th>
+                            <th scope="col">Hospital Cases</th>
+                            <th scope="col">ICU Cases</th>
+                            <th scope="col">High Care</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if check %}
+
+                        <!-- TODO: Loop through the database entries to display them in this table -->
+                        
+                        <tr>
+                            
+                            
+                            <td class="text-left">{{ check.region }}</td>
+                            <td class="text-left">{{ check.hospital_cases }}</td>
+                            <td class="text-left">{{ check.icu_cases }}</td>
+                            <td class="text-left">{{ check.high_care }}</td>
+                        </tr>
+                        
+                        
+                        
+                        {% endif %}
+
+                    </tbody>
+                </table>
+
+<form action="/update_hospitalization" method="post">
+        
+        <h5 class="mb-3"> Do you want to update?</h5>
+        <div class="row">
+           <div class="form-group col mb-2">
+                <input autocomplete="on" autofocus class="form-control" name="region" placeholder="{{ check.region }}" value="{{ check.region }}" type="text">
+                <div class="form-text">Region</div>
+            </div>
+            <div class="form-group col mb-2">
+                <input autocomplete="on" autofocus class="form-control" name="new_hospital_cases" placeholder="{{ check.hospital_cases }}"  type="number">
+                <div class="form-text">Hospital Cases</div>
+            </div>
+            <div class="form-group col mb-2">
+                <input autocomplete="on" autofocus class="form-control" name="new_icu_cases" placeholder="{{ check.icu_cases }}" type="number">
+                <div class="form-text">ICU Cases</div>
+            </div>
+            <div class="form-group col mb-2">
+                <input autocomplete="on" autofocus class="form-control" name="high_care" placeholder="{{ check.high_care }}" type="number">
+                <div class="form-text">High Care</div>
+            </div>
+            <div class="col text-center">
+                <button class="btn btn-success px-5" type="submit">Update</button>
+            </div>
+        </div>
+    </form>
+    <div class="text-center mt-4">
+      <a class="btn btn btn-danger px-5" href="./" role="button">Back</a>
+  </div>
+
+{% endblock %}

@@ -1,0 +1,54 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    
+{% endblock %}
+
+{% block main %}
+  
+
+  <h5>All cases</h5>
+  
+  <table class="table table-sm table-striped">
+    <thead>
+        <tr>
+            <th scope="col">Date</th>
+            <th scope="col">Missing Cases</th>
+        </tr>
+    </thead>
+    
+    <tbody>
+        {% if missing_cases %}
+
+        {% for row in missing_cases %}
+        <tr>
+            <td class="text-left">{{ row.missing_date }}</td>
+            <td class="text-left">{{ row.missing_cases }}</td>
+        </tr>
+        {% endfor %}
+        <tr>
+            <td class="text-left" colspan="2"><strong>Total</strong></td>
+            <td class="text-left"> <strong>{{ missing_cases|sum("missing_cases") }}</strong>
+        </tr>
+
+        {% endif %}
+
+    </tbody>
+  </table>
+<form action="/missing_cases" method="post">
+        
+        <h5> Add missing cases:</h5>
+        <div class="row">
+            
+            <div class="form-group col mb-2">
+                <input autocomplete="off" autofocus class="form-control" name="missing_cases" placeholder="0" value="0" type="number">
+            </div>
+         
+            <div class="col text-center">
+                <button class="btn btn-success px-5" type="submit">Add</button>
+            </div>
+        </div>
+  </form>
+  
+
+{% endblock %}

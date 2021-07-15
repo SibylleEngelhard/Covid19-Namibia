@@ -1,0 +1,39 @@
+body{
+	
+    font-weight: 400;
+    font-style: normal;
+    /*color: black;*/
+    
+    font-size: 16px;
+    opacity: 1;
+    visibility: visible;
+	/*font-family: 'Nunito Sans', sans-serif;*/
+	/*font-family: 'Inter', sans-serif;
+}*/
+}
+h2,h5{
+	color: #146740;
+	font-weight:600;
+}
+
+.navbar-light .navbar-brand{
+	color: #146740;
+	font-weight:600;
+}
+
+
+
+.form-control
+{
+    display: inline-block;
+    width: auto;
+
+}
+
+/*main
+{
+    overflow-x: auto;
+    text-align: center;
+}*/
+
+

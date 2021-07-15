@@ -1,0 +1,75 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    
+{% endblock %}
+
+{% block main %}
+  
+    <p class="text-center">Today: {{ now.strftime("%A, %d %B %Y %H:%M") }}</p> 
+    <p>Last update date: {{ last_date}}</p>
+  
+    <form action="/summary" method="post">
+    <div class="row">
+      <div class="col">
+        <h5> Change summary date:</h5>
+      </div>
+      
+      <div class="form-group col mb-3">
+            <input autocomplete="off" autofocus class="form-control" name="display_date" placeholder="{{ display_date }}" value="{{ display_date }}" type="text">
+            <div class="form-text">Day to show </div>
+          </div>
+        <div class="text-center col mb-4">
+          <button class="btn btn-success px-5" type="submit">Go</button>
+        </div>
+      </div>
+      </form>
+  <h2 class="text-center mb-4"> Summary for {{ display_date }}</h2>  
+  <div class="row">
+    <div class="col mb-2">
+      <div class="card" style="width: 18rem;">
+        <div class="card-body">
+          <h5 class="card-title mb-3">Daily summary:</h5>
+          <div class="row">
+            <div class="col-9 mb-2">
+              <p> New Cases: </p>
+              <p> Recoveries: </p>
+              <p> Deaths: </p>
+            </div>
+            <div class="col-3 mb-2">
+              <p> {{ daily_list[0] }}</p>
+              <p> {{ daily_list[1] }}</p>
+              <p> {{ daily_list[2] }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col mb-2">
+      <div class="card" style="width: 18rem;">
+        <div class="card-body">
+          <h5 class="card-title mb-3">Cumulative summary:</h5>
+          <div class="row">
+            <div class="col-9 mb-2">
+              <p> Cumulative Cases: </p>
+              <p> Cumulative Recoveries: </p>
+              <p> Active Cases: </p>
+              <p> Total Deaths: </p>
+            </div>
+            <div class="col-3 mb-2">
+              <p> {{ update_list[0] }}</p>
+              <p> {{ update_list[1] }}</p>
+              <p> {{ update_list[2] }}</p>
+              <p> {{ update_list[3] }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="text-center mt-4">
+      <a class="btn btn btn-danger px-5" href="./" role="button">Back</a>
+  </div>
+
+{% endblock %}

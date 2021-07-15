@@ -1,0 +1,49 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    
+{% endblock %}
+
+{% block main %}
+  <p>{{ now.strftime("%A, %d %B %Y %H:%M") }}</p> 
+
+  <h5>All cases</h5>
+  
+  <table class="table table-sm table-striped">
+    <thead>
+        <tr>
+           
+            <th scope="col">Publish Date</th>
+            <th scope="col">District</th>
+            <th scope="col">Sex</th>
+            <th scope="col">Age</th>
+            <th scope="col">Comorbidities</th>
+            <th scope="col">Death Date</th>
+            <th scope="col">Classification</th>
+        </tr>
+    </thead>
+    
+    <tbody>
+        {% if all_deaths %}
+
+        {% for row in all_deaths %}
+        <tr>
+            <td class="text-left">{{ row.publish_date }}</td>
+            <td class="text-left">{{ row.district }}</td>
+            <td class="text-left">{{ row.sex }}</td>
+            <td class="text-left">{{ row.age }}</td>
+            <td class="text-left">{{ row.comorbidities }}</td>
+            <td class="text-left">{{ row.death_date }}</td>
+            <td class="text-left">{{ row.classification }}</td>
+        </tr>
+        {% endfor %}
+        
+
+        {% endif %}
+
+    </tbody>
+  </table>
+
+  
+
+{% endblock %}
