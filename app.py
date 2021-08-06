@@ -87,6 +87,7 @@ with col3b:
 	total_new_cases=cases_df[cases_df.cases_date == last_date_str][['new_cases']].sum()[0]
 	
 	st.write('New cases: '+str(total_new_cases))
+	
 	#Daily New Recoveries
 	total_new_recoveries=recoveries_df[recoveries_df.recoveries_date == last_date_str][['new_recoveries']].sum()[0]
 	st.write('Recoveries: '+str(int(total_new_recoveries)))
@@ -123,8 +124,8 @@ with col3c:
 	expander1.write(new_cases[['Region','District','New Cases']])
 	expander2 = st.beta_expander('Hospital Cases')
 	expander2.write(new_hospital_cases[['Region','Hospital Cases','ICU']])
-	expander3 = st.beta_expander('Deaths')
-	expander3.write(new_deaths)
+	#expander3 = st.beta_expander('Deaths')
+	#expander3.write(new_deaths)
 
 with col3d:
 	st.markdown('<h3 style="margin-bottom:.2rem;margin-top:0rem;text-align: left">New Cases per District:</h3>', unsafe_allow_html=True)
@@ -242,10 +243,13 @@ with col5b:
 	daily_deaths_df.loc[pd.to_datetime(daily_deaths_df['datetime']).dt.date > last_date_minus7, '7day_average'] = None
 	daily_deaths_range_df=daily_deaths_df.loc[(daily_deaths_df['death_date'] >= start_date_str) & (daily_deaths_df['death_date'] <= end_date_str)]
 	if selection=='Daily':
-		base = alt.Chart(daily_deaths_range_df,height=250).encode(x=alt.X('datetime:T',title='Date of Death'))
+		#base = alt.Chart(daily_deaths_range_df,height=250).encode(x=alt.X('datetime:T',title='Date of Death'))
+		base = alt.Chart(daily_deaths_range_df,height=250).encode(x=alt.X('datetime:T',title='Date of Death (correct until 20_07_2021)'))
+	
 		bar = base.mark_bar(color='#f76e05').encode(y=alt.Y('No of Deaths:Q',title='No of Deaths'))
 		line = base.mark_line(color='#94010e').encode(y='7day_average').properties(title='Daily Deaths and 7-Day Average')
 		st.altair_chart(bar+line)
+		st.write("different reporting format from MoHSS from 21 July 2021")
 	elif selection=='Cumulative':
 		chart_cumulative_deaths=alt.Chart(daily_deaths_range_df,height=250).mark_area(
 		    line={'color':'#a80202'},
@@ -260,6 +264,7 @@ with col5b:
 			x=alt.X('datetime:T',title='Date of Death'),
 			y=alt.Y('cumulative_deaths:Q',title='No of Deaths')).properties(title='Cumulative Deaths')
 		st.altair_chart(chart_cumulative_deaths)
+
 
 col6a, col6b= st.beta_columns([1,1])
 ###-------------Active Cases------------------------
@@ -353,7 +358,25 @@ with col7a:
 	if selected_district=='Windhoek':
 		st.write('7-Day Incidence: '+str(sevenday_incidence_whk))
 
-	district_daily_range_df=district_daily_df.loc[(daily_df['cases_date'] >= start_date_str) & (district_daily_df['cases_date'] <= end_date_str)]
+	district_daily_range_df=district_daily_df.loc[(district_daily_df['cases_date'] >= start_date_str) & (district_daily_df['cases_date'] <= end_date_str)]
+	
+	min_district_cases=district_daily_range_df['new_cases'].min()
+	st.write(district_daily_range_df[['cases_date','new_cases','7day_average']])
+	#st.write('Min: '+str(min_all_cases_2021))
+	
+	de_df=deaths_df[deaths_df['district'] == selected_district][['death_date','district']]
+	de_df=de_df.groupby(['death_date'],as_index=False)['district'].count()
+	de_df=de_df.rename(columns={'district':'no_deaths'})
+	district_deaths_df=date_range.to_frame()
+	district_deaths_df.reset_index(drop=True, inplace=True)
+	district_deaths_df['death_date']=district_deaths_df['datetime'].dt.strftime('%Y-%m-%d')
+	district_deaths_df=pd.merge(district_deaths_df,de_df,how = 'outer', on='death_date')	
+	district_deaths_df=district_deaths_df.fillna(0)
+	district_deaths_df['7day_average'] = district_deaths_df['no_deaths'].rolling(window=7).mean()
+	district_deaths_df.loc[pd.to_datetime(district_deaths_df['datetime']).dt.date > last_date_minus7, '7day_average'] = None
+	district_deaths_range_df=district_deaths_df.loc[(district_deaths_df['death_date'] >= start_date_str) & (district_deaths_df['death_date'] <= end_date_str)]
+
+
 
 with col7b:
 	image_filename='./images/'+selected_district+'.jpg'
@@ -366,6 +389,12 @@ with col7c:
 	bar = base.mark_bar(color='#5696db').encode(y=alt.Y('new_cases:Q',title='No of Cases'))
 	line = base.mark_line(color='darkblue').encode(y='7day_average').properties(title=title_daily)
 	st.altair_chart(bar+line)
+	title_deaths=selected_district+': Daily Deaths and 7-Day Average'
+	base2 = alt.Chart(district_deaths_range_df,height=250).encode(x=alt.X('datetime:T',title='Date'))
+	bar2 = base2.mark_bar(color='#f76e05').encode(y=alt.Y('no_deaths:Q',title='No of Deaths'))
+	line2 = base2.mark_line(color='#94010e').encode(y='7day_average').properties(title=title_deaths)
+	#st.altair_chart(bar2+line2)
+
 
 ######################################################################
 #---------------------------------#
