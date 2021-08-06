@@ -361,8 +361,10 @@ with col7a:
 	district_daily_range_df=district_daily_df.loc[(district_daily_df['cases_date'] >= start_date_str) & (district_daily_df['cases_date'] <= end_date_str)]
 	
 	min_district_cases=district_daily_range_df['new_cases'].min()
-	st.write(district_daily_range_df[['cases_date','new_cases','7day_average']])
-	#st.write('Min: '+str(min_all_cases_2021))
+	t=district_daily_range_df[['cases_date','new_cases','7day_average']]
+
+	st.write(t.style.format({'new_cases':'{:.0f}','7day_average':'{:.0f}'}))
+	
 	
 	de_df=deaths_df[deaths_df['district'] == selected_district][['death_date','district']]
 	de_df=de_df.groupby(['death_date'],as_index=False)['district'].count()
