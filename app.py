@@ -229,41 +229,81 @@ with col5a:
 
 #---------Daily and Cumulative Deaths-----------------------
 with col5b:
-	d_df=deaths_df.groupby(['death_date'],as_index=False)['classification'].count()
-	d_df=d_df.rename(columns={'classification':'No of Deaths'})
-	#d_df=pd.read_sql(sa.text("SELECT death_date,COUNT(*) FROM deaths GROUP BY death_date"), engine)
-	daily_deaths_df=date_range.to_frame()
-	daily_deaths_df.reset_index(drop=True, inplace=True)
-	daily_deaths_df['death_date']=daily_deaths_df['datetime'].dt.strftime('%Y-%m-%d')#date as string
-	daily_deaths_df=pd.merge(daily_deaths_df,d_df,how = 'outer', on='death_date')	
-	daily_deaths_df=daily_deaths_df.fillna(0)
-	daily_deaths_df['cumulative_deaths'] = daily_deaths_df['No of Deaths'].cumsum()
-	daily_deaths_df['7day_average'] = daily_deaths_df['No of Deaths'].rolling(window=7).mean()
-	last_date_minus7=last_date-timedelta(days = 7)
-	daily_deaths_df.loc[pd.to_datetime(daily_deaths_df['datetime']).dt.date > last_date_minus7, '7day_average'] = None
-	daily_deaths_range_df=daily_deaths_df.loc[(daily_deaths_df['death_date'] >= start_date_str) & (daily_deaths_df['death_date'] <= end_date_str)]
-	if selection=='Daily':
-		#base = alt.Chart(daily_deaths_range_df,height=250).encode(x=alt.X('datetime:T',title='Date of Death'))
-		base = alt.Chart(daily_deaths_range_df,height=250).encode(x=alt.X('datetime:T',title='Date of Death (correct until 20_07_2021)'))
-	
-		bar = base.mark_bar(color='#f76e05').encode(y=alt.Y('No of Deaths:Q',title='No of Deaths'))
-		line = base.mark_line(color='#94010e').encode(y='7day_average').properties(title='Daily Deaths and 7-Day Average')
-		st.altair_chart(bar+line)
-		st.write("different reporting format from MoHSS from 21 July 2021")
-	elif selection=='Cumulative':
-		chart_cumulative_deaths=alt.Chart(daily_deaths_range_df,height=250).mark_area(
-		    line={'color':'#a80202'},
-	    	color=alt.Gradient(
-	        	gradient='linear',
-	        	stops=[alt.GradientStop(color='#ff8e14', offset=0),
-	               alt.GradientStop(color='red', offset=1)],
-	        	x1=1,
-	        	x2=1,
-	        	y1=1,
-	        	y2=0)).encode(
-			x=alt.X('datetime:T',title='Date of Death'),
-			y=alt.Y('cumulative_deaths:Q',title='No of Deaths')).properties(title='Cumulative Deaths')
-		st.altair_chart(chart_cumulative_deaths)
+	selection_d=st.radio ('Show Deaths By',('Date Published','Death Date'),key="radio2")
+	if selection_d=='Date Published':
+		d_df=deaths_df.groupby(['publish_date'],as_index=False)['classification'].count()
+		d_df=d_df.rename(columns={'classification':'No of Deaths'})
+		#d_df=pd.read_sql(sa.text("SELECT death_date,COUNT(*) FROM deaths GROUP BY death_date"), engine)
+		daily_deaths_df=date_range.to_frame()
+		daily_deaths_df.reset_index(drop=True, inplace=True)
+		daily_deaths_df['publish_date']=daily_deaths_df['datetime'].dt.strftime('%Y-%m-%d')#date as string
+		daily_deaths_df=pd.merge(daily_deaths_df,d_df,how = 'outer', on='publish_date')	
+		daily_deaths_df=daily_deaths_df.fillna(0)
+		daily_deaths_df['cumulative_deaths'] = daily_deaths_df['No of Deaths'].cumsum()
+		daily_deaths_df['7day_average'] = daily_deaths_df['No of Deaths'].rolling(window=7).mean()
+		last_date_minus7=last_date-timedelta(days = 7)
+		daily_deaths_df.loc[pd.to_datetime(daily_deaths_df['datetime']).dt.date > last_date_minus7, '7day_average'] = None
+		daily_deaths_range_df=daily_deaths_df.loc[(daily_deaths_df['publish_date'] >= start_date_str) & (daily_deaths_df['publish_date'] <= end_date_str)]
+		if selection=='Daily':
+			#base = alt.Chart(daily_deaths_range_df,height=250).encode(x=alt.X('datetime:T',title='Date of Death'))
+			base = alt.Chart(daily_deaths_range_df,height=250).encode(x=alt.X('datetime:T',title='Publish Date'))
+		
+			bar = base.mark_bar(color='#f76e05').encode(y=alt.Y('No of Deaths:Q',title='No of Deaths'))
+			line = base.mark_line(color='#94010e').encode(y='7day_average').properties(title='Daily Deaths and 7-Day Average')
+			st.altair_chart(bar+line)
+			st.write("different reporting format from MoHSS from 21 July 2021")
+		elif selection=='Cumulative':
+			chart_cumulative_deaths=alt.Chart(daily_deaths_range_df,height=250).mark_area(
+			    line={'color':'#a80202'},
+		    	color=alt.Gradient(
+		        	gradient='linear',
+		        	stops=[alt.GradientStop(color='#ff8e14', offset=0),
+		               alt.GradientStop(color='red', offset=1)],
+		        	x1=1,
+		        	x2=1,
+		        	y1=1,
+		        	y2=0)).encode(
+				x=alt.X('datetime:T',title='Publish Date'),
+				y=alt.Y('cumulative_deaths:Q',title='No of Deaths')).properties(title='Cumulative Deaths')
+			st.altair_chart(chart_cumulative_deaths)
+
+	else:
+
+		d_df=deaths_df.groupby(['death_date'],as_index=False)['classification'].count()
+		d_df=d_df.rename(columns={'classification':'No of Deaths'})
+		#d_df=pd.read_sql(sa.text("SELECT death_date,COUNT(*) FROM deaths GROUP BY death_date"), engine)
+		daily_deaths_df=date_range.to_frame()
+		daily_deaths_df.reset_index(drop=True, inplace=True)
+		daily_deaths_df['death_date']=daily_deaths_df['datetime'].dt.strftime('%Y-%m-%d')#date as string
+		daily_deaths_df=pd.merge(daily_deaths_df,d_df,how = 'outer', on='death_date')	
+		daily_deaths_df=daily_deaths_df.fillna(0)
+		daily_deaths_df['cumulative_deaths'] = daily_deaths_df['No of Deaths'].cumsum()
+		daily_deaths_df['7day_average'] = daily_deaths_df['No of Deaths'].rolling(window=7).mean()
+		last_date_minus7=last_date-timedelta(days = 7)
+		daily_deaths_df.loc[pd.to_datetime(daily_deaths_df['datetime']).dt.date > last_date_minus7, '7day_average'] = None
+		daily_deaths_range_df=daily_deaths_df.loc[(daily_deaths_df['death_date'] >= start_date_str) & (daily_deaths_df['death_date'] <= end_date_str)]
+		if selection=='Daily':
+			#base = alt.Chart(daily_deaths_range_df,height=250).encode(x=alt.X('datetime:T',title='Date of Death'))
+			base = alt.Chart(daily_deaths_range_df,height=250).encode(x=alt.X('datetime:T',title='Date of Death (correct until 20_07_2021)'))
+		
+			bar = base.mark_bar(color='#f76e05').encode(y=alt.Y('No of Deaths:Q',title='No of Deaths'))
+			line = base.mark_line(color='#94010e').encode(y='7day_average').properties(title='Daily Deaths and 7-Day Average')
+			st.altair_chart(bar+line)
+			st.write("different reporting format from MoHSS from 21 July 2021")
+		elif selection=='Cumulative':
+			chart_cumulative_deaths=alt.Chart(daily_deaths_range_df,height=250).mark_area(
+			    line={'color':'#a80202'},
+		    	color=alt.Gradient(
+		        	gradient='linear',
+		        	stops=[alt.GradientStop(color='#ff8e14', offset=0),
+		               alt.GradientStop(color='red', offset=1)],
+		        	x1=1,
+		        	x2=1,
+		        	y1=1,
+		        	y2=0)).encode(
+				x=alt.X('datetime:T',title='Date of Death'),
+				y=alt.Y('cumulative_deaths:Q',title='No of Deaths')).properties(title='Cumulative Deaths')
+			st.altair_chart(chart_cumulative_deaths)
 
 
 col6a, col6b= st.beta_columns([1,1])
