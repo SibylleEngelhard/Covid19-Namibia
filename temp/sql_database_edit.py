@@ -16,7 +16,7 @@ datenow=datetime.now(timezone("Africa/Johannesburg")).date()
 #print(currentdatetime)
 #print(date_isoformat)
 
-connection = sqlite3.connect("./covid19-nam/covid19_Nam.db")
+connection = sqlite3.connect("./covid19_Nam.db")
 
 #sqlite3.connect(":memory:")
 cursor = connection.cursor()
@@ -93,16 +93,16 @@ print(existing_districts)
 #cursor.execute("INSERT INTO districts (district,region) VALUES('Okahao', 'Omusati')")
 #cursor.execute("INSERT INTO cases (cases_date,district,new_cases,update_date) VALUES(?,?,?,?)",(date_cases,'Windhoek',135,datenow))
 #new_date = datetime.strptime('2021-01-26', '%Y-%m-%d').date()
-date1 = datetime.strptime('2020-05-20', '%Y-%m-%d').date()
+date1 = datetime.strptime('2022-02-05', '%Y-%m-%d').date()
 #cursor.execute("UPDATE deaths SET publish_date = ? WHERE publish_date = ?",(new_date, date1,))
  
-
+cursor.execute("DELETE FROM missing WHERE missing_date = ?", (date1,))
 #cursor.execute("UPDATE districts SET district = ? WHERE district = ?", ('Walvis Bay','Walvisbay',))
 
-target_name="Kavango East"
+#target_name="Kavango East"
 #cursor.execute("DELETE FROM cases WHERE district = ?", (target_name,))
-text1="unkonwn"
-text2="unknown"
+#text1="unkonwn"
+#text2="unknown"
 
 #cursor.execute("DELETE FROM districts WHERE district = ?", (target_name,))
 
@@ -110,7 +110,7 @@ text2="unknown"
 #cursor.execute("DELETE FROM hospitalization WHERE hospital_date = ? AND region = ?", (date1,target_name,))
 #cursor.execute("DELETE FROM recoveries WHERE recoveries_date = ? ", (date1,))
 #cursor.execute("DELETE FROM deaths WHERE publish_date = ?", (date1,))
-cursor.execute("UPDATE recoveries SET region = ? WHERE region = ? ", (text2,text1))
+#cursor.execute("UPDATE recoveries SET region = ? WHERE region = ? ", (text2,text1))
 #print(rows)
 
 """
