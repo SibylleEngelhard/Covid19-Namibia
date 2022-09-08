@@ -447,8 +447,8 @@ expander_bar.markdown('''
 - **Population Data for 7-Day Incidence:**  Namibia 2021: 2584291 - https://www.worldometers.info/world-population/namibia-population/  
         Windhoek 2021: 445745 - https://worldpopulationreview.com/world-cities/windhoek-population
 - No warranty is given that the information provided in this app is free of errors.
-- for info or suggestions contact: s.engelhard@gmx.net
-- updating of the database wa stopped in February 2022
+- for info contact: s.engelhard@gmx.net
+- updating of the database was stopped in February 2022
 ''')
 #---------------------------------#
 
