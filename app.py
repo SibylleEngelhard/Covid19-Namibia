@@ -403,7 +403,7 @@ with col7a:
 	min_district_cases=district_daily_range_df['new_cases'].min()
 	t=district_daily_range_df[['cases_date','new_cases','7day_average']]
 
-	st.write(t.style.format({'new_cases':'{:.0f}','7day_average':'{:.0f}'}))
+	#st.write(t.style.format({'new_cases':'{:.0f}','7day_average':'{:.0f}'}))
 	
 	
 	de_df=deaths_df[deaths_df['district'] == selected_district][['death_date','district']]
@@ -447,7 +447,8 @@ expander_bar.markdown('''
 - **Population Data for 7-Day Incidence:**  Namibia 2021: 2584291 - https://www.worldometers.info/world-population/namibia-population/  
         Windhoek 2021: 445745 - https://worldpopulationreview.com/world-cities/windhoek-population
 - No warranty is given that the information provided in this app is free of errors.
-- for info or suggestions contact: ehasib47@gmail.com
+- for info or suggestions contact: s.engelhard@gmx.net
+- updating of the database wa stopped in February 2022
 ''')
 #---------------------------------#
 
