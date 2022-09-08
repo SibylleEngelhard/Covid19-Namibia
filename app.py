@@ -448,7 +448,7 @@ expander_bar.markdown('''
         Windhoek 2021: 445745 - https://worldpopulationreview.com/world-cities/windhoek-population
 - No warranty is given that the information provided in this app is free of errors.
 - for info contact: s.engelhard@gmx.net
-- updating of the database was stopped in February 2022
+- updating of this database was stopped in February 2022
 ''')
 #---------------------------------#
 
